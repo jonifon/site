@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Personal Website</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+        }
+        body {
+            background: #0b0b0b;
+            font-family: Consolas;
+            color: #b7b7b7;
+            font-size: 14px;
+        }
+        h3 {
+            margin-bottom: -15px;
+            margin-left: 10px;
+        }
+        .command {
+            margin-bottom: 7px;
+            margin-top: 15px;
+        }
+        .contact-link {
+            color: #e34460;
+            text-decoration: underline;
+        }
+        #blinking-cursor {
+            animation: blink-animation 0.7s step-end infinite;
+            color: #ff2e2e;
+            display: inline-block;
+        }
+        #cursor {
+            opacity: 0;
+        }
+
+        @keyframes blink-animation {
+          from, to {
+            color: transparent;
+          }
+          50% {
+            color: #ff2e2e;
+          }
+        }
+    </style>
+    <!-- Вывод приветствия в консоли -->
+    <h3 class="command"> <span style="color: #ff2e2e"> root@localhost:</span> <span style="color: #487eff">~</span>$ welcome</h3>
+    <h3>
+       Меня зовут <span style="color: #e34460">bytearray</span><br>
+       Рад видеть вас на <span style="color: #e34460">этом сайте</span><br>
+    </h3>
+    <!-- Вывод информации о себе в консоли -->
+    <h3 class="command" style="margin-top: 50px"><span style="color: #ff2e2e"> root@localhost:</span> <span style="color: #487eff">~</span>$ whoi</h3>
+    <h3>
+       Я - <span style="color: #e34460">студент</span><br>
+       Владею языками программирования: <span style="color: #e34460">C#, Python, Lua, PHP, JavaScript, SQL</span><br>
+       Опыт работы с:  <span style="color: #e34460">Git & MySQL</span><br>
+    </h3>
+    <!-- Вывод списка проектов в консоли -->
+    <h3 class="command" style="margin-top: 50px"><span style="color: #ff2e2e"> root@localhost:</span> <span style="color: #487eff">~</span>$ cd projects ; ls</h3>
+    <h3 style="color: #FFFFFF">  404clientWEB/     ExtazyyWEB/</h3>
+
+    <!-- Вывод контактов в консоли -->
+    <h3 class="command" style="margin-top: 50px"><span style="color: #ff2e2e"> root@localhost:</span> <span style="color: #487eff">~</span>$ contacts</h3>
+    <h3>
+        Свяжитесь со мной:<br>
+        Github: <a href="https://github.com/jonifon" class="contact-link">github.com/jonifon</a><br>
+        Telegram: <a href="https://t.me/AlexvDf" class="contact-link">t.me/AlexvDf</a><br>
+        Discord: <span style="color: #e34460">x96dbg</span><br>
+    </h3>
+        <h3 class="command" style="margin-top: 50px"><span style="color: #ff2e2e"> root@localhost:</span> <span style="color: #487eff">~</span>$ <span id="TextToWrite"></span><span id="blinking-cursor">|</span></h3>
+    <script>
+        function animateTitle() {
+          const titles = ["My Personal Website", "Welcome!", "Feel free to explore"];
+          let index = 0;
+          document.title = titles[index];
+
+          setInterval(() => {
+            index = (index + 1) % titles.length;
+            document.title = titles[index];
+          }, 3000);
+        }
+
+        animateTitle();
+
+        function PrintKey(key){
+            const textToWriteElement = document.getElementById('TextToWrite');
+            if (key !== undefined)
+                textToWriteElement.textContent += key;
+        }
+
+        function ProcessKey(key) {
+            if (/^[a-zA-Z0-9]$/.test(key)) {
+              PrintKey(key);
+            }
+            if (key == "Backspace") {
+                const textToWriteElement = document.getElementById('TextToWrite');
+                const text = textToWriteElement.textContent;
+                textToWriteElement.textContent = text.substring(0, text.length - 1);
+            }
+            if (key == "Enter") {
+                ProcessCommand();
+            }
+        }
+
+        function Print(text){
+            document.getElementById('TextToWrite').id = 'NewTextToWrite';
+            document.getElementById('blinking-cursor').id = 'cursor';
+            let newH3 = document.createElement('h3');
+            newH3.textContent = text;
+            document.body.appendChild(newH3);
+            
+            var newConsole = CreateConsole();
+            document.body.appendChild(newConsole);
+        }
+
+        function ProcessCommand() {
+            const commandElement = document.getElementById('TextToWrite');
+            const commandText = commandElement.textContent.trim();
+
+            //commandElement.textContent = '';
+
+            switch (commandText) {
+                case 'dream1xd':
+                    Print('Бамбамбам дримикс едет по холмам.');
+                    break;
+                case 'whess':
+                    Print('Висс на письке повис.');
+                    break;
+                case 'rtyu':
+                    Print('Лашок маринованный.');
+                    break;
+                case 'help':
+                    Print('А хуй тебе.');
+                    break;
+                default:
+                    Print('Команда не найдена.');
+            }
+        }
+
+        function CreateConsole() {
+            var newH3 = document.createElement('h3');
+            newH3.classList.add('command');
+            
+            var spanRoot = document.createElement('span');
+            spanRoot.style.color = '#ff2e2e';
+            spanRoot.textContent = ' root@localhost:';
+            
+            var spanTilde = document.createElement('span');
+            spanTilde.style.color = '#487eff';
+            spanTilde.textContent = ' ~';
+
+            var dollar = document.createElement('span');
+            dollar.style.color = '#b7b7b7';
+            dollar.textContent += '$ ';
+
+            var spanTextToWrite = document.createElement('span');
+            spanTextToWrite.id = 'TextToWrite';
+            
+            var spanBlinkingCursor = document.createElement('span');
+            spanBlinkingCursor.id = 'blinking-cursor';
+            spanBlinkingCursor.textContent = '|';
+            
+            newH3.appendChild(spanRoot);
+            newH3.appendChild(spanTilde);
+            newH3.appendChild(dollar);
+            newH3.appendChild(spanTextToWrite);
+            newH3.appendChild(spanBlinkingCursor);
+            
+            return newH3;
+        }
+
+
+        function handleKeyPress(event) {
+            var key = event.key;
+            ProcessKey(key);
+        }
+
+        document.addEventListener('keydown', handleKeyPress);
+    </script>
+</body>
+</html>
